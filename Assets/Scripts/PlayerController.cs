@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
 
     private float minRotation = -60f;
     private float maxRotation = 80f;
-    private float lookSensitivity = 0.03f;
+    private float lookSensitivity = 0.045f;
 
     private void OnMove(InputValue value)
     {
