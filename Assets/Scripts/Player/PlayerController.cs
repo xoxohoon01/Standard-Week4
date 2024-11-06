@@ -40,9 +40,12 @@ public class PlayerController : MonoBehaviour
     // 마우스 움직임시 curLook 값 변경
     private void OnLook(InputValue value)
     {
-        Vector2 delta = value.Get<Vector2>() * lookSensitivity;
-        curLook.x += delta.x;
-        curLook.y = Mathf.Clamp(curLook.y - delta.y, minRotation, maxRotation);
+        if (Cursor.lockState == CursorLockMode.Locked)
+        {
+            Vector2 delta = value.Get<Vector2>() * lookSensitivity;
+            curLook.x += delta.x;
+            curLook.y = Mathf.Clamp(curLook.y - delta.y, minRotation, maxRotation);
+        }
     }
     // curLook 값에 따라 캐릭터 및 카메라 회전
     private void CameraLook()
@@ -79,6 +82,14 @@ public class PlayerController : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void OnInventory(InputValue value)
+    {
+        if (value.isPressed)
+        {
+            inventory.Invoke();
+        }
     }
 
     private void Awake()
