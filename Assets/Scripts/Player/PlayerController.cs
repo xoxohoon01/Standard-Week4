@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -9,6 +10,8 @@ public class PlayerController : MonoBehaviour
     Rigidbody rb;
     public Transform CameraContainer;
 
+    public Action inventory;
+
     Vector3 curMovementInput;
     Vector3 curLook;
     public LayerMask groundLayerMask;
@@ -19,6 +22,7 @@ public class PlayerController : MonoBehaviour
     private float minRotation = -60f;
     private float maxRotation = 80f;
     private float lookSensitivity = 0.045f;
+
 
     // 키 입력시 curMovementInput 값 변경
     private void OnMove(InputValue value)
