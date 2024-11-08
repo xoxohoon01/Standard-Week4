@@ -19,15 +19,16 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 3.0f;
     public float jumpForce = 5.0f;
 
+    public bool canLook = true;
     private float minRotation = -60f;
     private float maxRotation = 80f;
     private float lookSensitivity = 0.045f;
 
 
     // 키 입력시 curMovementInput 값 변경
-    private void OnMove(InputValue value)
+    public void OnMove(InputAction.CallbackContext context)
     {
-        curMovementInput = value.Get<Vector2>();
+        curMovementInput = context.ReadValue<Vector2>();
     }
     // curMovementInput 값에 따라 플레이어 이동
     private void Move()
@@ -38,11 +39,11 @@ public class PlayerController : MonoBehaviour
     }
 
     // 마우스 움직임시 curLook 값 변경
-    private void OnLook(InputValue value)
+    public void OnLook(InputAction.CallbackContext context)
     {
         if (Cursor.lockState == CursorLockMode.Locked)
         {
-            Vector2 delta = value.Get<Vector2>() * lookSensitivity;
+            Vector2 delta = context.ReadValue<Vector2>() * lookSensitivity;
             curLook.x += delta.x;
             curLook.y = Mathf.Clamp(curLook.y - delta.y, minRotation, maxRotation);
         }
@@ -55,9 +56,9 @@ public class PlayerController : MonoBehaviour
     }
 
     // 점프 키 입력 시 IsGround의 리턴값에 따라 점프
-    public void OnJump(InputValue value)
+    public void OnJump(InputAction.CallbackContext context)
     {
-        if (value.isPressed && IsGrounded())
+        if (context.phase == InputActionPhase.Started && IsGrounded())
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode.Impulse);
         }
@@ -84,9 +85,9 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
-    private void OnInventory(InputValue value)
+    public void OnInventory(InputAction.CallbackContext context)
     {
-        if (value.isPressed)
+        if (context.phase == InputActionPhase.Started)
         {
             inventory.Invoke();
         }
